@@ -1,5 +1,5 @@
-const ROLE_QUERY_SQL = "select * from role where userPhone=? and userPwd=?";
-const ROLE_INSERT_SQL = `INSERT INTO role SET ?`;
+const ROLE_QUERY_SQL = "select * from role where userName=? and userPhone=? and userPwd=?";
+const ROLE_INSERT_SQL = `INSERT INTO role (userName,userPhone,userPwd,isAdministrator) values (?,?,?,1)`;
 const ROLE_UPDATE_SQL = `UPDATE role SET username=? WHERE id=?`;
 const ROLE_DELETE_SQL = `DELETE FROM role WHERE id=?`;
 

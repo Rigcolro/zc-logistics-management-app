@@ -23,4 +23,22 @@ const query = (sql, val) => {
     });
   });
 };
-module.exports = { query };
+const insert=(sql, val) => {
+  return new Promise((resolve, reject) => {
+    pool["data"].getConnection((err, connection) => {
+      if (err) {
+        console.log(err, "连接数据库失败!");
+      } else {
+        connection.query(sql, val, (err, results) => {
+          if (err) {
+            reject(err);
+          } else {
+            connection.release();
+            resolve(results);
+          }
+        });
+      }
+    });
+  });
+};
+module.exports = { query ,insert};

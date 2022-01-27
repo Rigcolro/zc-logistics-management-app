@@ -1,20 +1,62 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		{
-			"path": "pages/login/login",
-			"style": {
-				"navigationStyle":"custom",
-				"background":"#18a9bc"
-			}
-		}
-	],
-	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "物流管理系统",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
-	},
-	"easycom":{
-		"autoscan":true
-	}
+  "pages": [
+    //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+    {
+      "path": "pages/login/login",
+      "style": {
+        "background": "#18a9bc"
+      }
+    },
+    {
+      "path": "pages/home/home",
+      "style": {
+        "background": "#18a9bc"
+      }
+    },
+    {
+      "path": "pages/mail/mail",
+      "style": {
+        "background": "#18a9bc"
+      }
+    },
+    {
+      "path": "pages/profile/profile",
+      "style": {
+        "background": "#18a9bc"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationStyle": "custom",
+    "backgroundColor": "#F8F8F8"
+  },
+  "easycom": {
+    "autoscan": true
+  },
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#3cc51f",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "iconPath": "static/image/home.png",
+        "selectedIconPath": "static/image/home_active.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/mail/mail",
+        "iconPath": "static/image/mail.png",
+        "selectedIconPath": "static/image/mail_active.png",
+        "text": "寄件"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "iconPath": "static/image/profile.png",
+        "selectedIconPath": "static/image/profile_active.png",
+        "text": "我的"
+      }
+    ]
+  }
 }

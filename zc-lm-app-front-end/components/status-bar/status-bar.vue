@@ -9,7 +9,8 @@ export default {
 </script>
 <style lang='scss' scoped>
 .status_bar {
-    height: var(--status-bar-height);
     width: 100%;
+    height: var(--status-bar-height);
+    background: #fff;
 }
 </style>
