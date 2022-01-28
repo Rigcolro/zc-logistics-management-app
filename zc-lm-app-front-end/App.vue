@@ -2,15 +2,10 @@
 export default {
   onLaunch: function () {
     console.log("App Launch");
-    uni.getStorage({
+    uni.removeStorage({
       key: "loginStatus",
       success: function (res) {
-        const loginStatus = res.data;
-        if (loginStatus) {
-          uni.switchTab({
-            url: "/pages/home/home",
-          });
-        }
+        console.log("success");
       },
     });
   },

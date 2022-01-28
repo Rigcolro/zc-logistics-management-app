@@ -6,7 +6,10 @@
 export default {
   name: "bg-set",
   props: {
-    color: String,
+    backgroundColor: {
+      type: String,
+      default: "#fff",
+    },
   },
 };
 </script>
@@ -17,7 +20,7 @@ export default {
   height: 100%;
   top: 0;
   left: 0;
-  background-color: v-bind(color);
+  background-color: v-bind(backgroundColor);
   z-index: -1;
 }
 </style>

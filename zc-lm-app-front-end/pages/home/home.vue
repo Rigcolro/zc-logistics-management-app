@@ -1,6 +1,7 @@
 <template>
   <status-bar />
   <view class="content f fd-col ai-c jc-c">
+    <bg-set background-color="#f2f3f7" />
     <image class="logo" src="/static/image/logo.png"></image>
     <view class="text-area f jc-c">
       <text class="title">{{ title }}</text>

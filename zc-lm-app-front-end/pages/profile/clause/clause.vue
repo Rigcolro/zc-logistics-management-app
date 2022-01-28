@@ -1,17 +1,14 @@
 <template>
-  <status-bar />
   <view>
+    <nav-bar left-text="使用条款" />
     <bg-set background-color="#f2f3f7"/>
-    <text>寄件</text>
   </view>
 </template>
 
 <script>
 import { ref, toRefs, reactive } from "vue";
 export default {
-  name: "",
-  components: {},
-  props: {},
+  name: "clause-page",
   setup(props) {
     const {} = toRefs(props);
     return {};

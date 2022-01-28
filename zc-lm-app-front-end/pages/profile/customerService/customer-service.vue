@@ -1,19 +1,16 @@
 <template>
-  <status-bar />
   <view>
+    <nav-bar left-text="服务中心" />
     <bg-set background-color="#f2f3f7"/>
-    <text>寄件</text>
   </view>
 </template>
 
 <script>
-import { ref, toRefs, reactive } from "vue";
+import { ref, toRefs, reactive} from 'vue';
 export default {
-  name: "",
-  components: {},
-  props: {},
+  name: 'customer-service-page',
   setup(props) {
-    const {} = toRefs(props);
+    const {}=toRefs(props);
     return {};
   },
 };

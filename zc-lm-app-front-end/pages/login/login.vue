@@ -1,11 +1,11 @@
 <template>
   <status-bar />
   <view class="login-page f fd-col ai-c jc-c w100">
-    <bg-set color="#373447" />
+    <bg-set background-color="#373447" />
     <view class="login-page__img_part f fd-col ai-c">
       <image
         class="login-page__img_part_img"
-        src="/static/image/lm.png"
+        src="/static/image/login/lm.png"
       ></image>
       <text class="login-page__img_part_title">物流管理系统</text>
     </view>
@@ -60,6 +60,7 @@
 import { ref, toRefs, reactive } from "vue";
 import { useStore } from "vuex";
 import loginPageAPI from "/api/modules/login";
+import storageOperation from "/utils/index";
 export default {
   name: "login-page",
   setup() {
@@ -128,27 +129,9 @@ export default {
                 store.commit("setLoginStatus", true);
                 store.commit("setUserName", userName);
                 store.commit("setUserPhone", userPhone);
-                uni.setStorage({
-                  key: "loginStatus",
-                  data: true,
-                  success: function () {
-                    console.log("success");
-                  },
-                });
-                uni.setStorage({
-                  key: "userName",
-                  data: userName,
-                  success: function () {
-                    console.log("success");
-                  },
-                });
-                uni.setStorage({
-                  key: "userPhone",
-                  data: userPhone,
-                  success: function () {
-                    console.log("success");
-                  },
-                });
+                storageOperation.setStorage("loginStatus", true);
+                storageOperation.setStorage("userName", userName);
+                storageOperation.setStorage("userPhone", userPhone);
                 uni.switchTab({
                   url: "/pages/home/home",
                 });
@@ -175,13 +158,7 @@ export default {
               const data = res.data.data;
               if (data.length) {
                 store.commit("setLoginStatus", true);
-                uni.setStorage({
-                  key: "loginStatus",
-                  data: true,
-                  success: function () {
-                    console.log("success");
-                  },
-                });
+                storageOperation.setStorage("loginStatus", true);
               }
             })
             .catch((err) => {

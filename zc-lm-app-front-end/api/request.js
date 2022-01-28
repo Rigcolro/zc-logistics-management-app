@@ -4,14 +4,23 @@ import buildURL from "axios/lib/helpers/buildURL";
 const request = axios.create({
   timeout: 60 * 1000,
 });
-request.interceptors.request.use((config) => {
-  return config;
-});
+request.interceptors.request.use(
+  (config) => {
+    return config;
+  },
+  (err) => {
+    console.log("请求拦截器错误信息", err);
+    return err;
+  }
+);
 request.interceptors.request.use(
   (res) => {
     return res;
   },
-  (err) => {}
+  (err) => {
+    console.log("响应拦截器错误信息", err);
+    return err;
+  }
 );
 const post = (url, data, config) => request.post(url, data, config);
 

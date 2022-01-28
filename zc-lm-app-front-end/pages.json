@@ -19,8 +19,51 @@
         "background": "#18a9bc"
       }
     },
+    // 我的页面及子页面配置
     {
       "path": "pages/profile/profile",
+      "style": {
+        "background": "#18a9bc"
+      }
+    },
+    {
+      "path": "pages/profile/phoneManagement/phone-management",
+      "style": {
+        "background": "#18a9bc"
+      }
+    },
+    {
+      "path": "pages/profile/addressManagement/address-management",
+      "style": {
+        "background": "#18a9bc"
+      }
+    },
+    {
+      "path": "pages/profile/orderManagement/order-management",
+      "style": {
+        "background": "#18a9bc"
+      }
+    },
+    {
+      "path": "pages/profile/setting/setting",
+      "style": {
+        "background": "#18a9bc"
+      }
+    },
+    {
+      "path": "pages/profile/customerService/customer-service",
+      "style": {
+        "background": "#18a9bc"
+      }
+    },
+    {
+      "path": "pages/profile/feedback/feedback",
+      "style": {
+        "background": "#18a9bc"
+      }
+    },
+    {
+      "path": "pages/profile/clause/clause",
       "style": {
         "background": "#18a9bc"
       }
@@ -28,6 +71,8 @@
   ],
   "globalStyle": {
     "navigationStyle": "custom",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTextStyle": "black",
     "backgroundColor": "#F8F8F8"
   },
   "easycom": {
@@ -41,20 +86,20 @@
     "list": [
       {
         "pagePath": "pages/home/home",
-        "iconPath": "static/image/home.png",
-        "selectedIconPath": "static/image/home_active.png",
+        "iconPath": "static/image/common/home.png",
+        "selectedIconPath": "static/image/common/home_active.png",
         "text": "首页"
       },
       {
         "pagePath": "pages/mail/mail",
-        "iconPath": "static/image/mail.png",
-        "selectedIconPath": "static/image/mail_active.png",
+        "iconPath": "static/image/common/mail.png",
+        "selectedIconPath": "static/image/common/mail_active.png",
         "text": "寄件"
       },
       {
         "pagePath": "pages/profile/profile",
-        "iconPath": "static/image/profile.png",
-        "selectedIconPath": "static/image/profile_active.png",
+        "iconPath": "static/image/common/profile.png",
+        "selectedIconPath": "static/image/common/profile_active.png",
         "text": "我的"
       }
     ]
