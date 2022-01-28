@@ -1,13 +1,14 @@
 <script>
+import storageOperation from "/utils/index";
 export default {
   onLaunch: function () {
     console.log("App Launch");
-    uni.removeStorage({
-      key: "loginStatus",
-      success: function (res) {
-        console.log("success");
-      },
-    });
+    const data = storageOperation.getStorage("loginStatus");
+    if (data) {
+      uni.switchTab({
+        url: "/pages/home/home",
+      });
+    }
   },
   onShow: function () {
     console.log("App Show");
