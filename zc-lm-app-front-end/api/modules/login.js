@@ -5,5 +5,7 @@ export default {
   name: "login",
   baseUrl,
   loginQuery: (params) => request.post(`${baseUrl}/loginQuery`, params),
+  loginQueryName: (params) => request.post(`${baseUrl}/loginQueryName`, params),
+  loginQueryPhone: (params) => request.post(`${baseUrl}/loginQueryPhone`, params),
   loginInsert: (params) => request.post(`${baseUrl}/loginInsert`, params),
 };

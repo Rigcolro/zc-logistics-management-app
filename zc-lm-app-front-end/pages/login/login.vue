@@ -46,14 +46,14 @@
         </uni-forms>
       </uni-card>
     </view>
-    <uni-popup ref="popup" type="message">
-      <uni-popup-message
-        type="error"
-        message="用户名或手机号或密码错误,请核对后重新输入!"
-        :duration="2000"
-      ></uni-popup-message>
-    </uni-popup>
   </view>
+  <uni-popup ref="popup" type="message">
+    <uni-popup-message
+      type="error"
+      :message="popupMessage[popupStatus]"
+      :duration="2000"
+    ></uni-popup-message>
+  </uni-popup>
 </template>
 
 <script>
@@ -66,11 +66,17 @@ export default {
   setup() {
     const form = ref(null);
     const popup = ref(null);
+    const popupStatus = ref(0);
     const formData = reactive({
       userName: "",
       userPhone: "",
       userPwd: "",
     });
+    const popupMessage = [
+      "用户名或手机号或密码错误,请核对后重新输入!",
+      "该用户名已存在,换一个昵称试试呢!",
+      "该手机号已注册过但与用户名不匹配,请核对后重新输入!",
+    ];
     const store = useStore();
     const rules = {
       // 对name字段进行必填验证
@@ -98,7 +104,7 @@ export default {
                     resolve();
                   } else {
                     // 不通过返回 reject(new Error('错误信息'))
-                    reject(new Error("手机号码必须是11位数字"));
+                    reject(new Error("手机号码必须是11位数字!"));
                   }
                 }, 0);
               });
@@ -112,6 +118,22 @@ export default {
             required: true,
             errorMessage: "密码不能为空!",
           },
+          {
+            validateFunction: (rule, value, data, callback) => {
+              // 异步需要返回 Promise 对象
+              return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                  if (value.length >= 6) {
+                    // 通过返回 resolve
+                    resolve();
+                  } else {
+                    // 不通过返回 reject(new Error('错误信息'))
+                    reject(new Error("密码长度必须在6位及以上!"));
+                  }
+                }, 0);
+              });
+            },
+          },
         ],
       },
     };
@@ -124,7 +146,7 @@ export default {
             .loginQuery(formData)
             .then((res) => {
               const data = res.data.data;
-              const { userName, userPhone } = data[0];
+              const { userName, userPhone } = data[0] || {};
               if (data.length) {
                 store.commit("setLoginStatus", true);
                 store.commit("setUserName", userName);
@@ -153,17 +175,54 @@ export default {
         .then((res) => {
           console.log("表单数据信息：", res);
           loginPageAPI
-            .loginInsert(formData)
+            .loginQueryName({ userName: formData.userName })
             .then((res) => {
               const data = res.data.data;
               if (data.length) {
-                store.commit("setLoginStatus", true);
-                storageOperation.setStorage("loginStatus", true);
+                popupStatus.value = 1;
+                popup.value.open();
+                return;
+              } else {
+                loginPageAPI
+                  .loginQueryPhone({ userPhone: formData.userPhone })
+                  .then((res) => {
+                    const data = res.data.data;
+                    if (data.length && data.length === 1) {
+                      if (data[0].userName != formData.userName) {
+                        popupStatus.value = 2;
+                        popup.value.open();
+                        return;
+                      }
+                    } else if (data.length === 0) {
+                      loginPageAPI
+                        .loginInsert(formData)
+                        .then((res) => {
+                          const { userName, userPhone } = toRefs(formData);
+                          store.commit("setLoginStatus", true);
+                          store.commit("setUserName", userName.value);
+                          store.commit("setUserPhone", userPhone.value);
+                          storageOperation.setStorage("loginStatus", true);
+                          storageOperation.setStorage(
+                            "userName",
+                            userName.value
+                          );
+                          storageOperation.setStorage(
+                            "userPhone",
+                            userPhone.value
+                          );
+                          uni.switchTab({
+                            url: "/pages/home/home",
+                          });
+                        })
+                        .catch((err) => {
+                          console.log(err);
+                        });
+                    }
+                  })
+                  .catch((err) => console.log(err));
               }
             })
-            .catch((err) => {
-              console.log(err);
-            });
+            .catch((err) => console.log(err));
         })
         .catch((err) => {
           console.log("表单错误信息：", err);
@@ -172,6 +231,8 @@ export default {
     return {
       form,
       popup,
+      popupStatus,
+      popupMessage,
       formData,
       ...toRefs(formData),
       rules,

@@ -59,9 +59,9 @@
   </view>
   <uni-popup ref="popup" type="dialog">
     <uni-popup-dialog
+      type="warn"
       mode="base"
-      message="确定要退出登录吗"
-      :duration="2000"
+      content="确定要退出登录吗"
       :before-close="true"
       @close="close"
       @confirm="confirm"
