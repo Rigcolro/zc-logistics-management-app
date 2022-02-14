@@ -25,7 +25,7 @@ export default {
     const goBack = () => {
       uni.navigateBack({
         delta: 1,
-        animationType: "slide-in-left",
+        animationType: "slide-out-left",
         animationDuration: 100,
       });
     };

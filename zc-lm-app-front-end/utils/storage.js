@@ -10,14 +10,18 @@ const setStorage = (key, data) => {
 const getStorage = (key) => {
   let data = null;
   uni.getStorage({
-    key: "storage_key",
+    key,
     success: function (res) {
       data = res.data;
       console.log("获取存储成功!");
     },
+    fail: function (err) {
+      console.log(err);
+    },
   });
   return data;
 };
+const getStorageSync = (key) => uni.getStorageSync(key);
 const removeStorage = (key) => {
   uni.removeStorage({
     key,
@@ -26,4 +30,4 @@ const removeStorage = (key) => {
     },
   });
 };
-export default { setStorage, getStorage, removeStorage };
+export default { setStorage, getStorage, getStorageSync, removeStorage };

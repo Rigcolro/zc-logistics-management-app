@@ -6,7 +6,7 @@ const {
   ROLE_QUERY_PHONE_SQL,
   ROLE_INSERT_SQL,
 } = require("../utils/sql");
-const { query } = require("../utils/db");
+const { query,insert } = require("../utils/db");
 router.post("/loginQuery", async (ctx, next) => {
   const res = ctx.request.body;
   const { userName, userPhone, userPwd } = res;
@@ -75,7 +75,7 @@ router.post("/loginInsert", async (ctx, next) => {
   const { userName, userPhone, userPwd } = res;
   if (userName && userPhone && userPwd) {
     const queryParams = [userName, userPhone, userPwd];
-    const data = await query(ROLE_INSERT_SQL, queryParams);
+    const data = await insert(ROLE_INSERT_SQL, queryParams);
     console.log(data);
     if (data) {
       ctx.body = {
