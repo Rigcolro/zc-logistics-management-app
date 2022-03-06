@@ -1,11 +1,11 @@
 const router = require("koa-router")();
-router.prefix("/profile");
+router.prefix('/profile')
 const { ROLE_UPDATE_PHONE_SQL } = require("../utils/sql");
 const { update } = require("../utils/db");
 router.post("/updatePhoneNumber", async (ctx, next) => {
   const res = ctx.request.body;
   const { userPhone, userName } = res;
-  if (userPhone && userName) {
+  if (userName && userPhone) {
     const queryParams = [userPhone, userName];
     const data = await update(ROLE_UPDATE_PHONE_SQL, queryParams);
     console.log(data);
@@ -18,7 +18,7 @@ router.post("/updatePhoneNumber", async (ctx, next) => {
     } else {
       ctx.body = {
         status: 500,
-        msg: "更新出错!",
+        msg: "更新失败!",
       };
     }
   }

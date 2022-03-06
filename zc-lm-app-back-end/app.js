@@ -9,6 +9,7 @@ const cors = require("koa2-cors");
 
 const index = require("./routes/index");
 const login = require("./routes/login");
+const profile=require('./routes/profile')
 
 // error handler
 onerror(app);
@@ -41,6 +42,7 @@ app.use(async (ctx, next) => {
 app.use(cors());
 app.use(index.routes(), index.allowedMethods());
 app.use(login.routes(), login.allowedMethods());
+app.use(profile.routes(), profile.allowedMethods());
 
 app.listen(8080,()=>{
   console.log("server has started listening at port 8080!");

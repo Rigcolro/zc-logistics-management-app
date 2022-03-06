@@ -145,7 +145,8 @@ export default {
           loginPageAPI
             .loginQuery(formData)
             .then((res) => {
-              const data = res.data.data;
+              const data = res;
+              console.log(res);
               const { userName, userPhone } = data[0] || {};
               if (data.length) {
                 store.commit("setLoginStatus", true);

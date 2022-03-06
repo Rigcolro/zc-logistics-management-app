@@ -27,7 +27,7 @@
         "
         placeholder="请输入修改后的手机号码"
         :before-close="true"
-        v-model:value="userPhone"
+        :value="userPhone.value"
         @close="close"
         @confirm="confirm"
       ></uni-popup-dialog>
@@ -44,23 +44,22 @@ export default {
   setup() {
     const popup = ref(null);
     const titleStatus = ref(1);
+    const phone = ref(storageOperation.getStorage("userPhone"));
     const phoneNumber = computed(() => {
-      const userPhone = storageOperation.getStorageSync("userPhone");
-      const start = userPhone.slice(0, 3);
-      const end = userPhone.slice(7);
+      const start = phone.value.slice(0, 3);
+      const end = phone.value.slice(7);
       return start + "****" + end;
     });
-    const userPhone = ref(storageOperation.getStorageSync("userPhone"));
+    const userPhone = computed(() => phone);
     const editPhoneNumber = () => popup.value.open();
     const close = () => popup.value.close();
-    const confirm = () => {
-      if (userPhone.value.length === 11) {
-        console.log(1);
-        const phone = storageOperation.getStorageSync("userPhone");
+    const confirm = (phoneNumber) => {
+      if (phoneNumber.length === 11) {
         const name = storageOperation.getStorageSync("userName");
-        storageOperation.setStorage("userPhone", userPhone.value);
+        storageOperation.setStorage("userPhone", phoneNumber);
+        phone.value = phoneNumber;
         profileAPI
-          .updatePhoneNumber({ userPhone: phone, userName: name })
+          .updatePhoneNumber({ userPhone: phoneNumber, userName: name })
           .then((res) => console.log(res))
           .catch((err) => console.log(err));
         popup.value.close();
@@ -83,7 +82,7 @@ export default {
   },
 };
 </script>
-<style lang='scss' scoped>
+<style lang='scss'>
 .phone-management-page {
   &__card {
     padding: 40rpx 20rpx;

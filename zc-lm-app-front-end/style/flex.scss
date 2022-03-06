@@ -49,6 +49,14 @@
   align-items: stretch;
 }
 
+.ac-se {
+  align-content: space-evenly;
+}
+
+.ac-sb {
+  align-content: space-between;
+}
+
 .jc-c {
   justify-content: center;
 }
@@ -75,12 +83,4 @@
 
 .jc-s {
   justify-content: stretch;
-}
-
-.ac-se {
-  justify-content: space-evenly;
-}
-
-.ac-sb {
-  justify-content: space-between;
 }

@@ -6,7 +6,7 @@ const {
   ROLE_QUERY_PHONE_SQL,
   ROLE_INSERT_SQL,
 } = require("../utils/sql");
-const { query,insert } = require("../utils/db");
+const { query, insert } = require("../utils/db");
 router.post("/loginQuery", async (ctx, next) => {
   const res = ctx.request.body;
   const { userName, userPhone, userPwd } = res;

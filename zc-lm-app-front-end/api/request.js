@@ -13,9 +13,9 @@ request.interceptors.request.use(
     return err;
   }
 );
-request.interceptors.request.use(
+request.interceptors.response.use(
   (res) => {
-    return res;
+    return res.data.data;
   },
   (err) => {
     console.log("响应拦截器错误信息", err);
