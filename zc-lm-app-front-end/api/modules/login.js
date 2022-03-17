@@ -1,11 +1,13 @@
 import request from "../request";
-const baseUrl = "http://192.168.246.1:8080/login";
+const baseURL = request.baseURL;
+const subPath = "/login";
+const url = baseURL + subPath;
 export default {
   title: "登录页面接口",
   name: "login",
-  baseUrl,
-  loginQuery: (params) => request.post(`${baseUrl}/loginQuery`, params),
-  loginQueryName: (params) => request.post(`${baseUrl}/loginQueryName`, params),
-  loginQueryPhone: (params) => request.post(`${baseUrl}/loginQueryPhone`, params),
-  loginInsert: (params) => request.post(`${baseUrl}/loginInsert`, params),
+  url,
+  loginQuery: (params) => request.post(`${url}/loginQuery`, params),
+  loginQueryName: (params) => request.post(`${url}/loginQueryName`, params),
+  loginQueryPhone: (params) => request.post(`${url}/loginQueryPhone`, params),
+  loginInsert: (params) => request.post(`${url}/loginInsert`, params),
 };

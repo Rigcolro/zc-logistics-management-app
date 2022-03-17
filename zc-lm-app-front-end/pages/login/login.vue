@@ -9,13 +9,13 @@
       ></image>
       <text class="login-page__img_part_title">物流管理系统</text>
     </view>
-    <view class="login-page__form_part">
+    <view class="login-page__form-part">
       <uni-card
         title="请登录"
         mode="basic"
         :is-shadow="true"
         note="Tips"
-        class="login-page__form_part_card"
+        class="login-page__form-part-card"
       >
         <uni-forms ref="form" :rules="rules" :modelValue="formData">
           <uni-forms-item label="用户名" name="name" :required="true"
@@ -58,7 +58,6 @@
 
 <script>
 import { ref, toRefs, reactive } from "vue";
-import { useStore } from "vuex";
 import loginPageAPI from "/api/modules/login";
 import storageOperation from "/utils/index";
 export default {
@@ -77,7 +76,6 @@ export default {
       "该用户名已存在,换一个昵称试试呢!",
       "该手机号已注册过但与用户名不匹配,请核对后重新输入!",
     ];
-    const store = useStore();
     const rules = {
       // 对name字段进行必填验证
       name: {
@@ -147,14 +145,12 @@ export default {
             .then((res) => {
               const data = res;
               console.log(res);
-              const { userName, userPhone } = data[0] || {};
+              const { userName, userPhone, userPwd } = data[0] || {};
               if (data.length) {
-                store.commit("setLoginStatus", true);
-                store.commit("setUserName", userName);
-                store.commit("setUserPhone", userPhone);
                 storageOperation.setStorage("loginStatus", true);
                 storageOperation.setStorage("userName", userName);
                 storageOperation.setStorage("userPhone", userPhone);
+                storageOperation.setStorage("userPwd", userPwd);
                 uni.switchTab({
                   url: "/pages/home/home",
                 });
@@ -178,7 +174,7 @@ export default {
           loginPageAPI
             .loginQueryName({ userName: formData.userName })
             .then((res) => {
-              const data = res.data.data;
+              const data = res;
               if (data.length) {
                 popupStatus.value = 1;
                 popup.value.open();
@@ -187,7 +183,7 @@ export default {
                 loginPageAPI
                   .loginQueryPhone({ userPhone: formData.userPhone })
                   .then((res) => {
-                    const data = res.data.data;
+                    const data = res;
                     if (data.length && data.length === 1) {
                       if (data[0].userName != formData.userName) {
                         popupStatus.value = 2;
@@ -199,9 +195,6 @@ export default {
                         .loginInsert(formData)
                         .then((res) => {
                           const { userName, userPhone } = toRefs(formData);
-                          store.commit("setLoginStatus", true);
-                          store.commit("setUserName", userName.value);
-                          store.commit("setUserPhone", userPhone.value);
                           storageOperation.setStorage("loginStatus", true);
                           storageOperation.setStorage(
                             "userName",
@@ -259,8 +252,12 @@ page {
       letter-spacing: 10rpx;
     }
   }
-  &__form_part {
+  &__form-part {
     margin-top: 100rpx;
+    &-card {
+      border-radius: 40rpx;
+      box-shadow: 2px 2px 5px #999 !important;
+    }
   }
 }
 </style>

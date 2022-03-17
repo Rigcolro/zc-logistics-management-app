@@ -5,6 +5,7 @@ const store = createStore({
       loginStatus: false,
       userName: "",
       userPhone: "",
+      userAddress: "",
     };
   },
   getters: {
@@ -17,6 +18,9 @@ const store = createStore({
     getUserPhone(state) {
       return state.userPhone;
     },
+    getUserAddress(state) {
+      return state.userAddress;
+    },
   },
   mutations: {
     setLoginStatus(state, payLoad) {
@@ -27,6 +31,9 @@ const store = createStore({
     },
     setUserPhone(state, payLoad) {
       state.userPhone = payLoad;
+    },
+    setUserAddress(state, payLoad) {
+      state.userAddress = payLoad;
     },
   },
 });

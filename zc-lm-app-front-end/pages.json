@@ -27,6 +27,12 @@
       }
     },
     {
+      "path": "pages/profile/userInfoEdit/user-info-edit",
+      "style": {
+        "background": "#18a9bc"
+      }
+    },
+    {
       "path": "pages/profile/phoneManagement/phone-management",
       "style": {
         "background": "#18a9bc"
@@ -34,6 +40,12 @@
     },
     {
       "path": "pages/profile/addressManagement/address-management",
+      "style": {
+        "background": "#18a9bc"
+      }
+    },
+    {
+      "path": "pages/profile/addressManagement/address-edit",
       "style": {
         "background": "#18a9bc"
       }

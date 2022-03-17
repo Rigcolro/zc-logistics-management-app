@@ -13,5 +13,9 @@
     "axios": "^0.25.0",
     "vant": "^3.4.3",
     "vuex": "^4.0.2"
+  },
+  "devDependencies": {
+    "vite": "^2.8.6",
+    "vite-plugin-style-import": "^1.4.1"
   }
 }

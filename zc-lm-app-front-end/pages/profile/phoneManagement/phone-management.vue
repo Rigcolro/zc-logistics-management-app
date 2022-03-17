@@ -44,7 +44,7 @@ export default {
   setup() {
     const popup = ref(null);
     const titleStatus = ref(1);
-    const phone = ref(storageOperation.getStorage("userPhone"));
+    const phone = ref(storageOperation.getStorageSync("userPhone"));
     const phoneNumber = computed(() => {
       const start = phone.value.slice(0, 3);
       const end = phone.value.slice(7);

@@ -1,7 +1,7 @@
 <template>
   <status-bar />
   <view class="profile-page">
-    <view class="profile-page__headPortrait-part f ai-c">
+    <view class="profile-page__headPortrait-part f ai-c" @click="userInfoEdit">
       <image
         src="/static/image/profile/sdz.png"
         mode="widthFix"
@@ -13,7 +13,7 @@
     </view>
     <view class="profile-page__main-part">
       <view class="profile-page__main-part_management f ai-c jc-sb">
-        <view class="f fd-col ai-c" @click="managementViewClinic('phone')">
+        <view class="f fd-col ai-c" @click="managementViewClick('phone')">
           <image
             src="/static/image/profile/phone.png"
             mode="widthFix"
@@ -21,7 +21,7 @@
           ></image>
           <text>手机号管理</text>
         </view>
-        <view class="f fd-col ai-c" @click="managementViewClinic('address')">
+        <view class="f fd-col ai-c" @click="managementViewClick('address')">
           <image
             src="/static/image/profile/address.png"
             mode="widthFix"
@@ -29,7 +29,7 @@
           ></image>
           <text>地址管理</text>
         </view>
-        <view class="f fd-col ai-c" @click="managementViewClinic('order')">
+        <view class="f fd-col ai-c" @click="managementViewClick('order')">
           <image
             src="/static/image/profile/order.png"
             mode="widthFix"
@@ -53,7 +53,8 @@
         </uni-list>
       </view>
       <view class="profile-page__main-part_footer f jc-c">
-        <button type="warn" style="width: 60%" @click="logOut">退出登录</button>
+        <!-- <button type="warn" style="width: 60%" @click="logOut">退出登录</button> -->
+        <van-button type="danger" @click="logOut"  size="large">退出登录</van-button>
       </view>
     </view>
   </view>
@@ -116,16 +117,16 @@ export default {
       },
     ];
     const initPage = () => {
-      uni.getStorage({
-        key: "userName",
-        success: (res) => {
-          console.log(res.data);
-          userName.value = res.data;
-        },
+      userName.value = storageOperation.getStorageSync("userName");
+    };
+    const userInfoEdit = () => {
+      uni.navigateTo({
+        url: "/pages/profile/userInfoEdit/user-info-edit",
+        animationType: "slide-in-right",
+        animationDuration: 100,
       });
     };
-    const managementViewClinic = (type) => {
-      console.log(type);
+    const managementViewClick = (type) => {
       const baseUrl = "/pages/profile";
       uni.navigateTo({
         url: `${baseUrl}/${type}Management/${type}-management`,
@@ -157,7 +158,8 @@ export default {
       popup,
       userName,
       listData,
-      managementViewClinic,
+      userInfoEdit,
+      managementViewClick,
       logOut,
       close,
       confirm,
@@ -200,6 +202,10 @@ export default {
     &_footer {
       margin-top: 200rpx;
       width: 100%;
+      ::v-deep .van-button{
+        width: 50%;
+        font-size: 40rpx;
+      }
     }
   }
 }

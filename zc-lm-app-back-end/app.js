@@ -6,10 +6,11 @@ const onerror = require("koa-onerror");
 const bodyparser = require("koa-bodyparser");
 const logger = require("koa-logger");
 const cors = require("koa2-cors");
+const koaBody = require("koa-body");
 
 const index = require("./routes/index");
 const login = require("./routes/login");
-const profile=require('./routes/profile')
+const profile = require("./routes/profile");
 
 // error handler
 onerror(app);
@@ -43,8 +44,23 @@ app.use(cors());
 app.use(index.routes(), index.allowedMethods());
 app.use(login.routes(), login.allowedMethods());
 app.use(profile.routes(), profile.allowedMethods());
+app.use(
+  koaBody({
+    multipart: true,
+    formidable: {
+      maxFileSize: 2000 * 1024 * 1024, // 设置上传文件大小最大限制，默认20M
+      uploadDir: "public/images",
+      onFileBegin: (name, file) => {
+        // 文件存储之前对文件进行重命名处理
+        const fileFormat = file.name.split(".");
+        file.name = `${Date.now()}.${fileFormat[fileFormat.length - 1]}`;
+        file.path = `/${file.name}`;
+      },
+    },
+  })
+);
 
-app.listen(8080,()=>{
+app.listen(8080, () => {
   console.log("server has started listening at port 8080!");
 });
 // error-handling
