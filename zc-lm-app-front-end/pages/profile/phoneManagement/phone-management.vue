@@ -44,7 +44,7 @@ export default {
   setup() {
     const popup = ref(null);
     const titleStatus = ref(1);
-    const phone = ref(storageOperation.getStorageSync("userPhone"));
+    const phone = ref(storageOperation.getStorageSync("userPhone").value);
     const phoneNumber = computed(() => {
       const start = phone.value.slice(0, 3);
       const end = phone.value.slice(7);
@@ -55,7 +55,7 @@ export default {
     const close = () => popup.value.close();
     const confirm = (phoneNumber) => {
       if (phoneNumber.length === 11) {
-        const name = storageOperation.getStorageSync("userName");
+        const name = storageOperation.getStorageSync("userName").value;
         storageOperation.setStorage("userPhone", phoneNumber);
         phone.value = phoneNumber;
         profileAPI

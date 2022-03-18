@@ -5,6 +5,7 @@ const router = require("koa-router")();
 router.prefix("/profile");
 const {
   ROLE_UPDATE_PHONE_SQL,
+  ROLE_UPDATE_USER_INfO_SQL,
   ADDRESS_QUERY_USER_INFO_SQL,
   ADDRESS_UPDATE_ADDRESS_SQL,
 } = require("../utils/sql");
@@ -72,6 +73,40 @@ router.post("/updateAddress", async (ctx, next) => {
       userName,
     ];
     const data = await update(ADDRESS_UPDATE_ADDRESS_SQL, queryParams);
+    if (data) {
+      ctx.body = {
+        status: 200,
+        msg: "更新成功!",
+        data,
+      };
+    } else {
+      ctx.body = {
+        status: 500,
+        msg: "更新失败!",
+      };
+    }
+  }
+});
+router.post("/updateUserInfo", async (ctx, next) => {
+  const res = ctx.request.body;
+  const {
+    newUserName,
+    newUserPhone,
+    newUserPwd,
+    oldUserName,
+    oldUserPhone,
+    oldUserPwd,
+  } = res;
+  if (oldUserName && oldUserPhone && oldUserPwd) {
+    const queryParams = [
+      newUserName,
+      newUserPhone,
+      newUserPwd,
+      oldUserName,
+      oldUserPhone,
+      oldUserPwd,
+    ];
+    const data = await update(ROLE_UPDATE_USER_INfO_SQL, queryParams);
     if (data) {
       ctx.body = {
         status: 200,

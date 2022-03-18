@@ -11,4 +11,5 @@ export default {
   getUserInfo: (params) => request.get(`${url}/getUserInfo`, { params }),
   updateAddress: (params) => request.post(`${url}/updateAddress`, params),
   uploadImage: (params) => request.post(`${url}/uploadImage`, params),
+  updateUserInfo: (params) => request.post(`${url}/updateUserInfo`, params),
 };

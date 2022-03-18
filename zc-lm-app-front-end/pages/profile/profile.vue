@@ -54,7 +54,9 @@
       </view>
       <view class="profile-page__main-part_footer f jc-c">
         <!-- <button type="warn" style="width: 60%" @click="logOut">退出登录</button> -->
-        <van-button type="danger" @click="logOut"  size="large">退出登录</van-button>
+        <van-button type="danger" @click="logOut" size="large"
+          >退出登录</van-button
+        >
       </view>
     </view>
   </view>
@@ -71,12 +73,16 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 import storageOperation from "/utils/index";
 export default {
   name: "profile-page",
+  data() {
+    return {
+      userName: "",
+    };
+  },
   setup() {
-    let userName = ref("");
     const popup = ref(null);
     const listData = [
       {
@@ -116,9 +122,6 @@ export default {
         url: "/pages/profile/clause/clause",
       },
     ];
-    const initPage = () => {
-      userName.value = storageOperation.getStorageSync("userName");
-    };
     const userInfoEdit = () => {
       uni.navigateTo({
         url: "/pages/profile/userInfoEdit/user-info-edit",
@@ -136,7 +139,6 @@ export default {
     };
     const logOut = () => {
       console.log("logOut");
-      console.log(popup);
       popup.value.open();
     };
     const close = () => {
@@ -145,18 +147,12 @@ export default {
     const confirm = () => {
       popup.value.close();
       storageOperation.removeStorage("loginStatus");
-      storageOperation.removeStorage("userName");
-      storageOperation.removeStorage("userPhone");
       uni.navigateTo({
         url: "/pages/login/login",
       });
     };
-    onMounted(() => {
-      initPage();
-    });
     return {
       popup,
-      userName,
       listData,
       userInfoEdit,
       managementViewClick,
@@ -164,6 +160,9 @@ export default {
       close,
       confirm,
     };
+  },
+  onShow() {
+    this.userName = storageOperation.getStorageSync("userName").value;
   },
 };
 </script>
@@ -202,7 +201,7 @@ export default {
     &_footer {
       margin-top: 200rpx;
       width: 100%;
-      ::v-deep .van-button{
+      ::v-deep .van-button {
         width: 50%;
         font-size: 40rpx;
       }

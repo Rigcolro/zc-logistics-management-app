@@ -24,7 +24,7 @@ export default {
     };
   },
   onShow() {
-    const userName = StorageOperation.getStorageSync("userName");
+    const userName = StorageOperation.getStorageSync("userName").value;
     const getUserInfo = () => {
       profileApI
         .getUserInfo({ userName })

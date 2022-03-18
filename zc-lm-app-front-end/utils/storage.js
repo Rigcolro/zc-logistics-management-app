@@ -7,8 +7,17 @@ const setStorage = (key, data) => {
     },
   });
 };
+const setStorageSync = (key, data) => {
+  try {
+    uni.setStorageSync(key, data);
+  } catch (e) {
+    // error
+    console.log("同步存储出错", e);
+  }
+};
 const getStorage = (key) => {
-  let data = null;
+  let value = null;
+  let error = "";
   uni.getStorage({
     key,
     success: function (res) {
@@ -16,18 +25,45 @@ const getStorage = (key) => {
       console.log("获取存储成功!");
     },
     fail: function (err) {
-      console.log(err);
+      error = err;
+      console.log("获取存储出错", err);
     },
   });
-  return data;
+  return {
+    value,
+    error,
+  };
 };
-const getStorageSync = (key) => uni.getStorageSync(key);
+const getStorageSync = (key) => {
+  let value;
+  let error = "";
+  try {
+    value = uni.getStorageSync(key);
+    if (value) {
+      console.log(value);
+    }
+  } catch (e) {
+    // error
+    error = e;
+    console.log("同步获取存储出错", e);
+  }
+  return {
+    value,
+    error,
+  };
+};
 const removeStorage = (key) => {
   uni.removeStorage({
     key,
     success: function (res) {
-      console.log("删除存储成功!");
+      console.log(`删除${key}存储成功!`);
     },
   });
 };
-export default { setStorage, getStorage, getStorageSync, removeStorage };
+export default {
+  setStorage,
+  setStorageSync,
+  getStorage,
+  getStorageSync,
+  removeStorage,
+};

@@ -67,8 +67,8 @@ export default {
     const popup = ref(null);
     const popupStatus = ref(0);
     const formData = reactive({
-      userName: "",
-      userPhone: "",
+      userName: storageOperation.getStorageSync("userName").value,
+      userPhone: storageOperation.getStorageSync("userPhone").value,
       userPwd: "",
     });
     const popupMessage = [
@@ -144,7 +144,6 @@ export default {
             .loginQuery(formData)
             .then((res) => {
               const data = res;
-              console.log(res);
               const { userName, userPhone, userPwd } = data[0] || {};
               if (data.length) {
                 storageOperation.setStorage("loginStatus", true);

@@ -5,6 +5,7 @@ const ROLE_QUERY_NAME_SQL = "select * from role where userName=?";
 const ROLE_QUERY_PHONE_SQL = "select * from role where userPhone=?";
 const ROLE_INSERT_SQL = `insert INTO role (userName,userPhone,userPwd,isAdministrator) values (?,?,?,1)`;
 const ROLE_UPDATE_PHONE_SQL = `update role set userPhone=? where userName=?`;
+const ROLE_UPDATE_USER_INfO_SQL = `update role set userName=?,userPhone=?,userPwd=? where userName=? and userPhone=? and userPwd=?`;
 const ROLE_DELETE_SQL = `delete FROM role WHERE id=?`;
 // address表相关sql语句
 const ADDRESS_QUERY_USER_INFO_SQL =
@@ -17,6 +18,7 @@ module.exports = {
   ROLE_QUERY_PHONE_SQL,
   ROLE_INSERT_SQL,
   ROLE_UPDATE_PHONE_SQL,
+  ROLE_UPDATE_USER_INfO_SQL,
   ROLE_DELETE_SQL,
   ADDRESS_QUERY_USER_INFO_SQL,
   ADDRESS_UPDATE_ADDRESS_SQL,

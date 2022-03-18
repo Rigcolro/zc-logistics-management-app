@@ -3,8 +3,13 @@ import storageOperation from "/utils/index";
 export default {
   onLaunch: function () {
     console.log("App Launch");
-    const data = storageOperation.getStorage("loginStatus");
-    if (data) {
+    // 初始化缓存userName和userPhone避免报错
+    if (storageOperation.getStorageSync("userName").error) {
+      storageOperation.setStorageSync("userName", "");
+      storageOperation.setStorageSync("userPhone", "");
+    }
+    const { value, error } = storageOperation.getStorageSync("loginStatus");
+    if (!error && value) {
       uni.switchTab({
         url: "/pages/home/home",
       });
@@ -21,5 +26,5 @@ export default {
 
 <style>
 /*每个页面公共css */
-@import 'style/uni-ui.scss'
+@import "style/uni-ui.scss";
 </style>

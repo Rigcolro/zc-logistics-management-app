@@ -9,7 +9,9 @@
           <van-uploader :after-read="afterRead" />
         </view>
         <view class="user-info f1">
-          <view class="name">{{ formData.userName }}</view>
+          <view class="name" :style="[formData.userName ? {} : emptyName]">{{
+            formData.userName || "请输入用户名"
+          }}</view>
           <view class="phone">{{ formData.userPhone }}</view>
         </view></view
       >
@@ -36,14 +38,27 @@
               v-model="formData.userPwdR"
               placeholder="请再次输入密码"
               type="password"
-              @blur="handleUserPwdRBlur"
           /></uni-forms-item>
         </uni-forms>
       </view>
       <view class="button f jc-c">
-        <van-button type="primary">确认修改</van-button>
+        <van-button type="primary" @click="userInfoEdit">确认修改</van-button>
       </view>
     </view>
+    <uni-popup ref="popup" type="top">
+      <uni-popup-message
+        :type="
+          editStatus === 2 ? 'success' : editStatus === 3 ? 'warn' : 'error'
+        "
+        :message="
+          editStatus === 2
+            ? '修改成功，请重新登录'
+            : editStatus === 3
+            ? '前后数据一致，无效修改'
+            : '修改失败'
+        "
+      ></uni-popup-message>
+    </uni-popup>
   </view>
 </template>
 
@@ -51,16 +66,23 @@
 import { ref, reactive, watchEffect } from "vue";
 import loginAPI from "/api/modules/login";
 import profileAPI from "/api/modules/profile";
-import StorageOperation from "/utils/storage";
+import storageOperation from "/utils/storage";
 export default {
   name: "user-info-edit",
   setup() {
+    const form = ref(null);
+    const popup = ref(null);
+    const editStatus = ref(1);
+    const emptyName = reactive({
+      color: "red",
+    });
     const formData = reactive({
       userName: "",
       userPhone: "",
       userPwd: "",
       userPwdR: "",
     });
+    const oldFormData = reactive({});
     const rules = {
       userName: { rules: [{ required: true, errorMessage: "姓名不能为空" }] },
       userPhone: {
@@ -123,9 +145,13 @@ export default {
         });
     };
     const getUseInfo = () => {
-      const userName = ref(StorageOperation.getStorageSync("userName"));
-      const userPhone = ref(StorageOperation.getStorageSync("userPhone"));
-      const userPwd = ref(StorageOperation.getStorageSync("userPwd"));
+      const userName = ref(storageOperation.getStorageSync("userName").value);
+      const userPhone = ref(storageOperation.getStorageSync("userPhone").value);
+      const userPwd = ref(storageOperation.getStorageSync("userPwd").value);
+      oldFormData.userName = userName.value;
+      oldFormData.userPhone = userPhone.value;
+      oldFormData.userPwd = userPwd.value;
+      oldFormData.userPwdR = userPwd.value;
       loginAPI
         .loginQuery({
           userName: userName.value,
@@ -143,14 +169,68 @@ export default {
           console.log(err);
         });
     };
-    const handleUserPwdRBlur = (e) => {
-      if (formData.userPwd !== formData.userPwdR) {
-      }
+    const userInfoEdit = () => {
+      form.value
+        .validate()
+        .then((res) => {
+          const params = {
+            newUserName: formData.userName,
+            newUserPhone: formData.userPhone,
+            newUserPwd: formData.userPwd,
+            oldUserName: oldFormData.userName,
+            oldUserPhone: oldFormData.userPhone,
+            oldUserPwd: oldFormData.userPwd,
+          };
+          profileAPI
+            .updateUserInfo(params)
+            .then((response) => {
+              popup.value.open();
+              editStatus.value = 2;
+              const result = Object.keys(formData).some(
+                (item) => formData[item] !== oldFormData[item]
+              );
+              if (!result) editStatus.value = 3;
+              setTimeout(() => {
+                popup.value.close();
+                if (result) {
+                  // 缓存userName和userPhone供登录页自动填充
+                  storageOperation.removeStorage("loginStatus");
+                  storageOperation.setStorageSync(
+                    "userName",
+                    formData.userName
+                  );
+                  storageOperation.setStorageSync(
+                    "userPhone",
+                    formData.userPhone
+                  );
+                  uni.navigateTo({
+                    url: "/pages/login/login",
+                  });
+                }
+              }, 2000);
+            })
+            .catch((err) => {
+              console.log(err);
+              editStatus.value = 1;
+            });
+        })
+        .catch((err) => {
+          console.log("表单错误信息：", err);
+        });
     };
     watchEffect(() => {
       getUseInfo();
     });
-    return { rules, formData, afterRead, handleUserPwdRBlur };
+    return {
+      form,
+      popup,
+      editStatus,
+      rules,
+      emptyName,
+      formData,
+      afterRead,
+      userInfoEdit,
+    };
   },
 };
 </script>
@@ -159,7 +239,7 @@ export default {
   width: 100%;
   height: 100vh;
   &__edit-part {
-    margin-top: 100rpx;
+    margin-top: 10rpx;
     padding: 20rpx;
     width: 96%;
     height: 840rpx;

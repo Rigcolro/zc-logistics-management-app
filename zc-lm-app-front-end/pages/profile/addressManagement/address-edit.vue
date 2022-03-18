@@ -121,7 +121,7 @@ export default {
             userPhone: newUserPhone,
             userAddress: newUserAddress,
           } = res;
-          const userName = StorageOperation.getStorageSync("userName");
+          const userName = StorageOperation.getStorageSync("userName").value;
           profileAPI
             .updateAddress({
               newUserName,

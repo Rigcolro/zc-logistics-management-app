@@ -36,7 +36,7 @@ const options = (url, config) => request.options(url, config);
 
 const patch = (url, data, config) => request.patch(url, data, config);
 
-const baseURL = "http://192.168.0.101:8080";
+const baseURL = "http://192.168.0.36:8080";
 // 适配app
 request.defaults.adapter = function (config) {
   return new Promise((resolve, reject) => {
